@@ -4,19 +4,19 @@ import {nanoid} from 'nanoid';
 
 const contactsPath = path.resolve ('db', 'contacts.json');
 
-export const getAllContacts = async () => {
+export const listContacts = async () => {
   const contacts = await fs.readFile (contactsPath);
   return JSON.parse (contacts);
 };
 
 export const getContactById = async contactId => {
-  const contacts = await getAllContacts ();
+  const contacts = await listContacts ();
   const contactById = contacts.find (item => item.id === contactId);
   return contactById || null;
 };
 
 export const removeContact = async contactId => {
-  const contacts = await getAllContacts ();
+  const contacts = await listContacts ();
   const index = contacts.findIndex (item => item.id === contactId);
   if (index === -1) {
     return null;
@@ -27,7 +27,7 @@ export const removeContact = async contactId => {
 };
 
 export const addContact = async data => {
-  const contacts = await getAllContacts ();
+  const contacts = await listContacts ();
   const newContact = {
     id: nanoid (),
     ...data,
@@ -38,7 +38,7 @@ export const addContact = async data => {
 };
 
 export const updateContactById = async (contactId, data) => {
-  const contacts = await getAllContacts ();
+  const contacts = await listContacts ();
   const index = contacts.findIndex (item => item.id === contactId);
   if (index === -1) {
     return null;
